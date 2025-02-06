@@ -5,8 +5,25 @@ import Link from "next/link";
 
 export default function Admin() {
   const {projects, addProject, deleteProject, updateProject} = useProjects();
+  const {skills, addSkill, deleteSkill} = useSkills();
   // const {skills, addSkill, deleteSkill} = useSkills();
+  // Återaktivera dessa rader i början av Admin.js
+  const [skillName, setSkillName] = useState("");
+  const [skillImage, setSkillImage] = useState("");
 
+  // Uppdatera skill-formuläret
+  function handleCreateSkill(e) {
+    e.preventDefault();
+    if (skillName && skillImage) {
+      addSkill({
+        name: skillName,
+        image: skillImage,
+      });
+      // Återställ formuläret
+      setSkillName("");
+      setSkillImage("");
+    }
+  }
   // State for  skill form
   // const [skillName, setSkillName] = useState("");
   // const [skillImage, setSkillImage] = useState("");
@@ -50,7 +67,7 @@ export default function Admin() {
         image: projectImage,
         url: projectUrl,
         github: projectGithub,
-        tech: projectTech.split(",").map((tech) => tech.trim()),
+        tech: projectTech.split(","),
       };
       addProject(newProject); // Använd addProject från contexten
       resetForm();
@@ -86,7 +103,7 @@ export default function Admin() {
       image: projectImage,
       url: projectUrl,
       github: projectGithub,
-      tech: projectTech.split(",").map((tech) => tech.trim()),
+      tech: projectTech.split(","),
     };
     updateProject(projects[index].id, updatedProject); // Använd updateProject från contexten
     setEditingIndex(null);
@@ -143,7 +160,7 @@ export default function Admin() {
           Logga ut
         </button>
       </div>
-      <div className="flex gap-10">
+      <div className="flex flex-col md:flex-row  gap-10 ">
         <form
           className="flex flex-col gap-4 mb-5 w-80"
           onSubmit={
@@ -206,23 +223,34 @@ export default function Admin() {
         </form>
 
         {/* Skills form */}
-        <form className="flex flex-col gap-4 mb-5 w-80">
+        <form
+          onSubmit={handleCreateSkill}
+          className="flex flex-col gap-4 mb-5 w-80"
+        >
           <h3 className="text-xl font-bold text-center">Tech skills</h3>
           <input
             className="input input-bordered"
             type="text"
             placeholder="Skill"
+            value={skillName}
+            onChange={(e) => setSkillName(e.target.value)}
+            required
           />
           <input
             className="input input-bordered"
             type="text"
             placeholder="Skill image URL"
+            value={skillImage}
+            onChange={(e) => setSkillImage(e.target.value)}
+            required
           />
-          <button className="btn bg-blue-500">Add skill</button>
+          <button type="submit" className="btn bg-blue-500">
+            Add skill
+          </button>
         </form>
       </div>
-
       {/* Projects  */}
+      <h1 className="font-semibold m-5">Projects</h1>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {projects.map((project, index) => (
           <div className="card w-80 border" key={project.id}>
@@ -279,6 +307,31 @@ export default function Admin() {
             </div>
           </div>
         ))}
+      </div>
+
+      {/* Skills */}
+      <div>
+        <h1 className="font-semibold mt-5">Skills</h1>
+        <div>
+          {skills.map((skill) => {
+            return (
+              <div key={skill.id} className="flex gap-2 items-center">
+                <img
+                  src={skill.image}
+                  alt={skill.name}
+                  className="h-10 w-10 object-cover rounded-full"
+                />
+                <p>{skill.name}</p>
+                <button
+                  className="btn btn-sm bg-red-500"
+                  onClick={() => deleteSkill(skill.id)}
+                >
+                  Delete
+                </button>
+              </div>
+            );
+          })}
+        </div>
       </div>
     </div>
   );

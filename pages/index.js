@@ -3,13 +3,19 @@ import Link from "next/link";
 import Header from "./components/Header";
 import {useEffect} from "react";
 import {useProjects} from "./contexts/ProjectContext";
+import {useSkills} from "./contexts/SkillContext";
 
 export default function Home() {
   const {projects} = useProjects();
+  const {skills} = useSkills();
 
   useEffect(() => {
-    console.log("projects loaded; ", projects);
+    console.log("projects; ", projects);
   }, [projects]);
+
+  useEffect(() => {
+    console.log("skills ; ", skills);
+  });
 
   return (
     <div>
@@ -51,9 +57,24 @@ export default function Home() {
       <section id="skills" className="mt-16 text-center">
         <h2 className="text-3xl mb-4">My Skills</h2>
         {/* Addera skills */}
+        <div className="flex flex-wrap justify-center gap-4">
+          {skills.map((skill) => (
+            <div key={skill.id} className="p-2  rounded-md shadow-md">
+              <img
+                src={skill.image}
+                alt={skill.name}
+                className="h-14 w-full object-cover"
+              />
+              <small className="text-sm">{skill.name}</small>
+            </div>
+          ))}
+        </div>
       </section>
       {/* Projects Section */}
-      <section id="projects" className="mt-16 text-center">
+      <section
+        id="projects"
+        className="mt-16 text-center p-5 m-1 flex flex-col justify-center items-center"
+      >
         <h2 className="text-3xl mb-4">Projects</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
           {projects.map((project) => (
@@ -69,9 +90,9 @@ export default function Home() {
                 <h2 className="card-title">{project.name}</h2>
                 <p>{project.description}</p>
                 <div className="flex flex-wrap gap-2 my-2">
-                  {project.tech.map((tech, i) => (
+                  {project.tech.map((tech, index) => (
                     <span
-                      key={i}
+                      key={index}
                       className="px-2 py-1 text-sm bg-slate-300 rounded-full"
                     >
                       {tech}
