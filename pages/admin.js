@@ -1,20 +1,29 @@
 import {useState, useEffect} from "react";
-import {useProjects} from "./contexts/ProjectContext"; // Importera användaren av context här istället
+import {useProjects} from "./contexts/ProjectContext";
+import {useSkills} from "./contexts/SkillContext";
+import Link from "next/link";
 
 export default function Admin() {
-  const {projects, addProject, deleteProject, updateProject} = useProjects(); // Använd contexten här
+  const {projects, addProject, deleteProject, updateProject} = useProjects();
+  // const {skills, addSkill, deleteSkill} = useSkills();
 
+  // State for  skill form
+  // const [skillName, setSkillName] = useState("");
+  // const [skillImage, setSkillImage] = useState("");
+
+  // State for login
   const [loggedIn, setLoggedIn] = useState(false);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
+  // State to handle project form
   const [projectName, setProjectName] = useState("");
   const [projectDescription, setProjectDescription] = useState("");
   const [projectImage, setProjectImage] = useState("");
   const [projectUrl, setProjectUrl] = useState("");
   const [projectGithub, setProjectGithub] = useState("");
   const [projectTech, setProjectTech] = useState("");
-
+  // State to handle editing
   const [editingIndex, setEditingIndex] = useState(null);
 
   // Använd useEffect för att kontrollera login-status från localStorage
@@ -94,6 +103,7 @@ export default function Admin() {
     setProjectTech(project.tech.join(", "));
   }
 
+  // If user is not logged in, show login form
   if (!loggedIn) {
     return (
       <div className="flex flex-col w-56 mt-10 gap-6 h-screen mx-auto">
@@ -112,10 +122,13 @@ export default function Admin() {
         <button className="btn bg-green-500" onClick={handleLogin}>
           Logga in
         </button>
+        <button className="border border-slate-500">
+          <Link href="/">Home</Link>
+        </button>
       </div>
     );
   }
-
+  // If user is logged in, show admin page
   return (
     <div className="p-5">
       <div className="flex justify-between p-5">
@@ -130,15 +143,16 @@ export default function Admin() {
           Logga ut
         </button>
       </div>
-      <div className="flex ">
+      <div className="flex gap-10">
         <form
-          className="flex flex-col gap-4 mb-5"
+          className="flex flex-col gap-4 mb-5 w-80"
           onSubmit={
             editingIndex !== null
               ? () => handleSaveEdit(editingIndex)
               : handleCreateProject
           }
         >
+          <h3 className="text-xl font-bold text-center">Projects</h3>
           <input
             value={projectName}
             className="input input-bordered"
@@ -177,23 +191,38 @@ export default function Admin() {
             type="text"
             placeholder="Project link"
             onChange={(e) => setProjectUrl(e.target.value)}
-            required
           />
+
           <input
             value={projectGithub}
             className="input input-bordered"
             type="text"
             placeholder="Project GitHub"
             onChange={(e) => setProjectGithub(e.target.value)}
-            required
           />
           <button type="submit" className="btn bg-blue-500">
             {editingIndex !== null ? "Save" : "Add project"}
           </button>
         </form>
-        <div>techs skills</div>
+
+        {/* Skills form */}
+        <form className="flex flex-col gap-4 mb-5 w-80">
+          <h3 className="text-xl font-bold text-center">Tech skills</h3>
+          <input
+            className="input input-bordered"
+            type="text"
+            placeholder="Skill"
+          />
+          <input
+            className="input input-bordered"
+            type="text"
+            placeholder="Skill image URL"
+          />
+          <button className="btn bg-blue-500">Add skill</button>
+        </form>
       </div>
 
+      {/* Projects  */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {projects.map((project, index) => (
           <div className="card w-80 border" key={project.id}>
