@@ -68,11 +68,13 @@ const Contact = () => {
             </div>
 
             <div className="text-center">
-              <input
+              <button
                 type="submit"
-                value="Send Message"
-                className="px-6 py-3 bg-blue-500 text-white rounded-md cursor-pointer hover:bg-blue-600"
-              />
+                value=""
+                className="btn bg-orange-700 text-white px-6 py-3"
+              >
+                Send Message
+              </button>
             </div>
           </form>
         </div>
