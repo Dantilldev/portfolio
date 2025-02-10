@@ -1,7 +1,6 @@
 import {useState, useEffect} from "react";
 import {useProjects} from "./contexts/ProjectContext";
 import {useSkills} from "./contexts/SkillContext";
-import Link from "next/link";
 
 export default function Admin() {
   const {projects, addProject, deleteProject, updateProject} = useProjects();
@@ -123,7 +122,7 @@ export default function Admin() {
   // If user is not logged in, show login form
   if (!loggedIn) {
     return (
-      <div className="flex flex-col w-56 mt-10 gap-6 h-screen mx-auto">
+      <div className="min-h-screen flex flex-col justify-center items-center gap-5 bg-slate-100 h-80 ">
         <input
           className="input input-bordered"
           type="text"
@@ -138,9 +137,6 @@ export default function Admin() {
         />
         <button className="btn bg-green-500" onClick={handleLogin}>
           Logga in
-        </button>
-        <button className="border border-slate-500">
-          <Link href="/">Home</Link>
         </button>
       </div>
     );
@@ -249,11 +245,12 @@ export default function Admin() {
           </button>
         </form>
       </div>
+
       {/* Projects  */}
-      <h1 className="font-semibold m-5">Projects</h1>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      <h1 className="font-semibold m-5 text-center text-4xl ">Projects</h1>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 bg-slate-100 p-5 rounded-xl ">
         {projects.map((project, index) => (
-          <div className="card w-80 border" key={project.id}>
+          <div className="card w-72 border bg-white" key={project.id}>
             <figure>
               <img
                 src={project.image}
@@ -311,11 +308,11 @@ export default function Admin() {
 
       {/* Skills */}
       <div>
-        <h1 className="font-semibold mt-5">Skills</h1>
-        <div>
+        <h1 className="font-semibold mt-5 text-center text-4xl">Skills</h1>
+        <div className="bg-slate-100 p-4 flex justify-center items-center rounded-r-md gap-5">
           {skills.map((skill) => {
             return (
-              <div key={skill.id} className="flex gap-2 items-center">
+              <div key={skill.id} className="flex gap-2 items-center ">
                 <img
                   src={skill.image}
                   alt={skill.name}
@@ -323,10 +320,10 @@ export default function Admin() {
                 />
                 <p>{skill.name}</p>
                 <button
-                  className="btn btn-sm bg-red-500"
+                  className=" pl-2 pr-2"
                   onClick={() => deleteSkill(skill.id)}
                 >
-                  Delete
+                  ❌
                 </button>
               </div>
             );

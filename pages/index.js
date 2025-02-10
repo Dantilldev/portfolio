@@ -1,58 +1,19 @@
 import React from "react";
-import Link from "next/link";
-import Header from "./components/Header";
-import {useEffect} from "react";
 import {useProjects} from "./contexts/ProjectContext";
 import {useSkills} from "./contexts/SkillContext";
+import Hero from "./components/Hero";
 
 export default function Home() {
   const {projects} = useProjects();
   const {skills} = useSkills();
 
-  useEffect(() => {
-    console.log("projects; ", projects);
-  }, [projects]);
+  // console.log("projects; ", projects);
 
-  useEffect(() => {
-    console.log("skills ; ", skills);
-  });
+  // console.log("skills ; ", skills);
 
   return (
     <div>
-      <Header />
-      {/* Home Section */}
-      <section
-        id="home"
-        className="text-center mt-16 flex flex-col items-center"
-      >
-        <div className="flex flex-col md:flex-row gap-10 items-center">
-          <div>
-            <h2 className="text-4xl mb-4">Hi, I'm Daniel Tilleria</h2>
-            <p className="text-xl">I'm a Frontend Developer</p>
-            <div className="mt-8 space-x-4">
-              <Link href="/contact">
-                <button className="px-6 py-3 bg-orange-600 text-white">
-                  Contact Me
-                </button>
-              </Link>
-              <Link href="#about-me">
-                <button className="px-6 py-3 bg-black text-white">
-                  About Me
-                </button>
-              </Link>
-            </div>
-          </div>
-          <div className="rounded-full overflow-hidden shadow-lg">
-            <div className="w-48 h-48 md:w-64 md:h-64 bg-gray-300 items-center justify-center">
-              <img
-                src="/me.jpeg"
-                alt="profile"
-                className="w-full h-full object-cover"
-              />
-            </div>
-          </div>
-        </div>
-      </section>
+      <Hero />
       {/* Skill Section */}
       <section id="skills" className="mt-16 text-center">
         <h2 className="text-3xl mb-4">My Skills</h2>
@@ -73,10 +34,10 @@ export default function Home() {
       {/* Projects Section */}
       <section
         id="projects"
-        className="mt-16 text-center p-5 m-1 flex flex-col justify-center items-center"
+        className="mt-16 text-center  m-1 flex flex-col justify-center items-center"
       >
         <h2 className="text-3xl mb-4">Projects</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 p-10">
           {projects.map((project) => (
             <div className="card bg-base-100 w-80 shadow-xl" key={project.id}>
               <figure>
@@ -121,9 +82,6 @@ export default function Home() {
           ))}
         </div>
       </section>
-      <footer className="mt-16 py-6 text-center">
-        <small>&copy; 2025 Daniel Tilleria. All rights reserved.</small>
-      </footer>
     </div>
   );
 }
