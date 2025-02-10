@@ -2,20 +2,20 @@ import React from "react";
 import {useProjects} from "./contexts/ProjectContext";
 import {useSkills} from "./contexts/SkillContext";
 import Hero from "./components/Hero";
+import SkillsOverview from "./components/skills_overview";
 
 export default function Home() {
   const {projects} = useProjects();
   const {skills} = useSkills();
 
   // console.log("projects; ", projects);
-
   // console.log("skills ; ", skills);
 
   return (
-    <div>
+    <div className="min-h-screen">
       <Hero />
       {/* Skill Section */}
-      <section id="skills" className="mt-16 text-center">
+      <section id="skills" className="mt-16 text-center bg-gray-50 p-8">
         <h2 className="text-3xl mb-4">My Skills</h2>
         {/* Addera skills */}
         <div className="flex flex-wrap justify-center gap-4">
@@ -29,6 +29,9 @@ export default function Home() {
               <small className="text-sm">{skill.name}</small>
             </div>
           ))}
+        </div>
+        <div>
+          <SkillsOverview />
         </div>
       </section>
       {/* Projects Section */}

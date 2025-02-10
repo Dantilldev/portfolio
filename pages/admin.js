@@ -248,7 +248,7 @@ export default function Admin() {
 
       {/* Projects  */}
       <h1 className="font-semibold m-5 text-center text-4xl ">Projects</h1>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 bg-slate-100 p-5 rounded-xl ">
+      <div className=" flex flex-col md:flex-row md:flex-wrap gap-4 bg-slate-100 p-5 rounded-xl ">
         {projects.map((project, index) => (
           <div className="card w-72 border bg-white" key={project.id}>
             <figure>
